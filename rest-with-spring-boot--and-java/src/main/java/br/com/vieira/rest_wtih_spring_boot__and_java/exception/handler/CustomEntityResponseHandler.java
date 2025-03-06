@@ -1,6 +1,7 @@
 package br.com.vieira.rest_wtih_spring_boot__and_java.exception.handler;
 
 import br.com.vieira.rest_wtih_spring_boot__and_java.exception.ExceptionResponse;
+import br.com.vieira.rest_wtih_spring_boot__and_java.exception.InvalidJwtAuthenticationException;
 import br.com.vieira.rest_wtih_spring_boot__and_java.exception.RequiredObjectIsNullException;
 import br.com.vieira.rest_wtih_spring_boot__and_java.exception.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -34,5 +35,11 @@ public class CustomEntityResponseHandler extends ResponseEntityExceptionHandler 
     public final ResponseEntity<ExceptionResponse> handleBadRequestExceptions(Exception ex, WebRequest request){
         ExceptionResponse response = new ExceptionResponse(new Date(), ex.getMessage(), request.getDescription(false));
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(InvalidJwtAuthenticationException.class)
+    public final ResponseEntity<ExceptionResponse> handleInvalidJwtAuthenticationExceptions(Exception ex, WebRequest request){
+        ExceptionResponse response = new ExceptionResponse(new Date(), ex.getMessage(), request.getDescription(false));
+        return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
     }
 }

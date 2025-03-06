@@ -13,7 +13,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/book/v1")
+@RequestMapping("/api/book/v1")
 @Tag(name = "Book", description = "Endpoints for Managing Book")
 public class BookController implements BookControllerDocs {
 
