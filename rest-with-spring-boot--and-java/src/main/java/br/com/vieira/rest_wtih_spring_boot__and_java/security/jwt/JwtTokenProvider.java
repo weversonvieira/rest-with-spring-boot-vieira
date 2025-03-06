@@ -21,6 +21,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
@@ -57,6 +58,19 @@ public class JwtTokenProvider {
         String acessToken = getAcessToken(userName, roles, now, validity);
         String refreshtoken = getRefreshToken(userName, roles, now);
         return new TokenDTO(userName, true, now, validity, acessToken, refreshtoken);
+    }
+
+    public TokenDTO refreshToken(String refreshToken) {
+
+        if(StringUtils.isNotBlank(refreshToken) && refreshToken.startsWith("Bearer ")){
+
+            refreshToken.substring("Bearer ".length());
+        }
+        JWTVerifier verifier = JWT.require(algorithm).build();
+        DecodedJWT decodedJWT = verifier.verify(refreshToken);
+        String userName = decodedJWT.getSubject();
+        List<String> roles = decodedJWT.getClaim("roles").asList(String.class);
+        return createAccessToken(userName,roles);
     }
 
     public String getAcessToken(String userName, List<String> roles, Date now, Date validity) {
