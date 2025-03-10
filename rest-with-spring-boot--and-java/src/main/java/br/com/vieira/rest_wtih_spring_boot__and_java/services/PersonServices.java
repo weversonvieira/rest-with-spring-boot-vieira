@@ -12,6 +12,7 @@ import static br.com.vieira.rest_wtih_spring_boot__and_java.mapper.ObjectMapper.
 import br.com.vieira.rest_wtih_spring_boot__and_java.mapper.custom.PersonMapper;
 import br.com.vieira.rest_wtih_spring_boot__and_java.model.Person;
 import br.com.vieira.rest_wtih_spring_boot__and_java.repositoy.PersonRepository;
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,7 +58,7 @@ public class PersonServices {
 
     public PersonDTO create(PersonDTO person) {
 
-        if(person == null){
+        if (person == null) {
             throw new RequiredObjectIsNullException();
         }
         logger.info("Creating one People");
@@ -71,7 +72,7 @@ public class PersonServices {
     public PersonDTOV2 createV2(PersonDTOV2 person) {
 
 
-        if(person == null){
+        if (person == null) {
             throw new RequiredObjectIsNullException();
         }
         logger.info("Creating one People v2");
@@ -83,7 +84,7 @@ public class PersonServices {
     public PersonDTO update(PersonDTO person) {
 
 
-        if(person == null){
+        if (person == null) {
             throw new RequiredObjectIsNullException();
         }
         logger.info("Updating one People");
@@ -101,6 +102,18 @@ public class PersonServices {
 
     }
 
+    @Transactional
+    public PersonDTO disablePerson(Long id) {
+        logger.info("Disabling one Person");
+        repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No records found for this ID"));
+        repository.disablePerson(id);
+        var entity = repository.findById(id).get();
+        var dto = parseObject(entity, PersonDTO.class);
+        addHateoasLinks(dto);
+        return dto;
+
+    }
+
     public void delete(Long id) {
         logger.info("Delete one People");
         Person entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No records found for this ID"));
@@ -108,11 +121,12 @@ public class PersonServices {
 
     }
 
-    private  void addHateoasLinks(PersonDTO dto) {
+    private void addHateoasLinks(PersonDTO dto) {
         dto.add(linkTo(methodOn(PersonController.class).findById(dto.getId())).withSelfRel().withType("GET"));
         dto.add(linkTo(methodOn(PersonController.class).findAll()).withRel("findAll").withType("GET"));
         dto.add(linkTo(methodOn(PersonController.class).create(dto)).withRel("create").withType("POST"));
         dto.add(linkTo(methodOn(PersonController.class).update(dto)).withRel("update").withType("PUT"));
+        dto.add(linkTo(methodOn(PersonController.class).disablePerson(dto.getId())).withRel("disable").withType("PATCH"));
         dto.add(linkTo(methodOn(PersonController.class).delete(dto.getId())).withRel("delete").withType("DELETE"));
     }
 }

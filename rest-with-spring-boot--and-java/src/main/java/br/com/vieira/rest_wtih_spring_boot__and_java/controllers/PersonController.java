@@ -1,5 +1,6 @@
 package br.com.vieira.rest_wtih_spring_boot__and_java.controllers;
 
+import br.com.vieira.rest_wtih_spring_boot__and_java.config.WebConfig;
 import br.com.vieira.rest_wtih_spring_boot__and_java.data.dto.v1.PersonDTO;
 import br.com.vieira.rest_wtih_spring_boot__and_java.data.dto.v2.PersonDTOV2;
 import br.com.vieira.rest_wtih_spring_boot__and_java.services.PersonServices;
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import br.com.vieira.rest_wtih_spring_boot__and_java.controllers.docs.PersonControllerDocs;
 
 import java.util.List;
-
 
 @RestController
 @RequestMapping("/api/person/v1")
@@ -61,6 +61,14 @@ public class PersonController implements PersonControllerDocs {
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE})
     public PersonDTO update(@RequestBody PersonDTO person) {
         return service.update(person);
+
+    }
+
+    @Override
+    @PatchMapping(value = "/{id}",consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE},
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE})
+    public PersonDTO disablePerson(@PathVariable("id") Long id) {
+        return service.disablePerson(id);
 
     }
 
