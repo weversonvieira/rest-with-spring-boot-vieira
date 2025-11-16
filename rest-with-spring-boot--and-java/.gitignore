@@ -1,33 +1,57 @@
-HELP.md
-target/
-!.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
+/target/
+/.classpath
+/.project
+/.tern-project
+/.settings/
+/bin/
+.idea/
+/.idea
+/.apt_generated/
+/.apt_generated_tests/
 
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-
-### IntelliJ IDEA ###
-.idea
-*.iws
+# IntelliJ IDEA
 *.iml
+.idea/compiler.xml
+
+# Arquivos de configuração de execução
+*.iws
 *.ipr
 
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
+# Configurações de sistema e caches
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/dictionaries
+.idea/vcs.xml
+.idea/compiler.xml
 
-### VS Code ###
-.vscode/
+# Logs do IntelliJ IDEA
+.idea/*.log
+
+# Diretórios de cache gerados por plugins ou builds
+.idea/caches/
+.idea/libraries/
+
+# Arquivos temporários ou relacionados à depuração
+.idea/modules.xml
+.idea/assetWizardSettings.xml
+.idea/jsLibraryMappings.xml
+.idea/sqlDataSources.xml
+
+# Configurações específicas da máquina
+.idea/codeStyles/
+.idea/scopes/
+.idea/uiDesigner.xml
+
+#Eclipse
+.metadata/
+
+# Outros
+.idea/misc.xml
+.idea/modules/
+
+/.factorypath
+
+.smarttomcat/
+
+/${project.build.directory}/
+
